@@ -36,7 +36,7 @@
     curruser=$USER
     IP=$(/sbin/ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
     echo "Downloading and installing latest version of LedFx from github"
-    python3 -m pip install ledfx
+    python3 -m pip install git+https://github.com/LedFx/LedFx
     echo "Adding" $curruser "to Audio Group"
     sudo usermod -a -G audio $curruser
     whiptail --yesno "Install LedFx as a service so it launches automatically on boot?" --yes-button "Yes" --no-button "No" "${r}" "${c}"
@@ -76,7 +76,7 @@
 
   update-ledfx () {
     sudo systemctl stop ledfx 2> /dev/null
-    python3 -m pip install --upgrade --force-reinstall --no-deps --no-cache-dir ledfx
+    python3 -m pip install --upgrade --force-reinstall --no-deps --no-cache-dir git+https://github.com/LedFx/LedFx
     echo "All Updated, enjoy LedFx!"
     sudo systemctl start ledfx 2> /dev/null
   }
@@ -114,7 +114,7 @@
     sudo systemctl stop ledfx 2> /dev/null
     sudo systemctl disable ledfx 2> /dev/null
     sudo rm /etc/systemd/system/ledfx.service 2> /dev/null
-    python3 -m pip -q uninstall -y ledfx 2> /dev/null
+    python3 -m pip -q uninstall -y git+https://github.com/LedFx/LedFx 2> /dev/null
     install-ledfx
   }
 
